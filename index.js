@@ -24,6 +24,13 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
+    const productCollection = client.db("artsStore").collection("Crafts");
+    app.post("/addArts", async (req, res) => {
+      console.log(req.body);
+      const result = await productCollection.insertOne(req.body);
+      console.log(result);
+      res.send(result)
+    })
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     // Send a ping to confirm a successful connection
@@ -31,16 +38,16 @@ async function run() {
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    //await client.close();
   }
 }
 run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('Arts and crafts server is running.')
+  res.send('Arts and crafts server is running.')
 })
 
 app.listen(port, () => {
-    console.log(`Arts and craft server is running on port: ${port}`);
+  console.log(`Arts and craft server is running on port: ${port}`);
 })
