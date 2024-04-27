@@ -31,6 +31,12 @@ async function run() {
       console.log(result);
       res.send(result)
     })
+
+    app.get("/myArts/:email", async (req, res) => {
+      console.log(req.params.email);
+      const result = await productCollection.find({ email: req.params.email }).toArray();
+      res.send(result)
+    })
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     // Send a ping to confirm a successful connection
