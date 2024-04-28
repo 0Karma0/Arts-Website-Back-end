@@ -26,16 +26,19 @@ async function run() {
   try {
     const productCollection = client.db("artsStore").collection("Crafts");
     app.post("/addArts", async (req, res) => {
-      console.log(req.body);
       const result = await productCollection.insertOne(req.body);
-      console.log(result);
       res.send(result)
     })
 
     app.get("/myArts/:email", async (req, res) => {
-      console.log(req.params.email);
       const result = await productCollection.find({ email: req.params.email }).toArray();
       res.send(result)
+    })
+
+    app.get('/products', async (req, res) => {
+      const cursor = productCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
     })
 
     app.get("/singleProduct/:id", async(req, res) => {
